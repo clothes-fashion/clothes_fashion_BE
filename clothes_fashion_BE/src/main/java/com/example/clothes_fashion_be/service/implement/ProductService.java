@@ -3,6 +3,7 @@ package com.example.clothes_fashion_be.service.implement;
 import com.example.clothes_fashion_be.entitys.dto.request.ProductCreateRequest;
 import com.example.clothes_fashion_be.entitys.dto.request.ProductUpdateRequest;
 import com.example.clothes_fashion_be.entitys.dto.response.ProductResponse;
+import com.example.clothes_fashion_be.repository.ICategoryRepository;
 import com.example.clothes_fashion_be.repository.IProductRepository;
 import com.example.clothes_fashion_be.service.IProductService;
 import lombok.AccessLevel;
@@ -23,9 +24,10 @@ import java.util.List;
 public class ProductService implements IProductService {
     IProductRepository productRepository;
     ModelMapper modelMapper;
+    ICategoryRepository categoryRepository;
 
     @Override
-    public List<ProductResponse> getAllProducts() {
+    public List<ProductResponse> findAllProducts() {
         List<Object[]> list = productRepository.findAllProductByQuery();
         List<ProductResponse> productResponseList = new ArrayList<>();
         for (Object[] object : list) {
@@ -43,17 +45,30 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductResponse getProductById(Long id) {
-        return null;
+    public ProductResponse findProductById(Long id) {
+        Object[] product = productRepository.findProductByQuery(id).getFirst();
+        return new ProductResponse(
+                (Long) product[0],
+                (String) product[1],
+                (Long) product[2],
+                (String) product[3],
+                (String) product[4],
+                (Long) product[5],
+                (Date) product[6],
+                (String) product[7]
+        );
     }
 
     @Override
-    public void createProduct(ProductCreateRequest productCreateRequest) {
-        productRepository.createProductByQuery(productCreateRequest);
+    public void addProduct(ProductCreateRequest productCreateRequest) {
+        productCreateRequest.setLastUpdate(new Date());
+        productRepository.addProductByQuery(productCreateRequest);
     }
 
     @Override
     public ProductResponse updateProduct(ProductUpdateRequest productUpdateRequest) {
+        productUpdateRequest.setLastUpdate(new Date());
+        productRepository.updateProductByQuery(productUpdateRequest);
         return null;
     }
 

@@ -20,5 +20,5 @@ public class ProductUpdateRequest {
     boolean gender;
     Date lastUpdate;
     String description;
-    List<Long> categories;
+    Long categoryId;
 }
