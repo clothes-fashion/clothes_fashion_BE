@@ -3,7 +3,7 @@ package com.example.clothes_fashion_be.controller;
 import com.example.clothes_fashion_be.entitys.dto.request.ProductCreateRequest;
 import com.example.clothes_fashion_be.entitys.dto.request.ProductUpdateRequest;
 import com.example.clothes_fashion_be.entitys.dto.response.ApiResponse;
-import com.example.clothes_fashion_be.entitys.dto.response.ProductResponse;
+import com.example.clothes_fashion_be.entitys.dto.response.ProductResponseProjection;
 import com.example.clothes_fashion_be.service.IProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +20,13 @@ public class ProductController {
     IProductService productService;
 
     @GetMapping
-    public ApiResponse<List<ProductResponse>> getAllProducts() {
-        return ApiResponse.<List<ProductResponse>>builder().data(productService.findAllProducts()).build();
+    public ApiResponse<List<ProductResponseProjection>> getAllProducts() {
+        return ApiResponse.<List<ProductResponseProjection>>builder().data(productService.findAllProducts()).build();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<ProductResponse> getProductById(@PathVariable Long id) {
-        ProductResponse productResponse = productService.findProductById(id);
-        return ApiResponse.<ProductResponse>builder().data(productResponse).build();
+    public ApiResponse<ProductResponseProjection> getProductById(@PathVariable Long id) {
+        return ApiResponse.<ProductResponseProjection>builder().data(productService.findProductById(id)).build();
     }
     @PostMapping
     public ApiResponse<Void> createProduct(@RequestBody ProductCreateRequest productCreateRequest) {

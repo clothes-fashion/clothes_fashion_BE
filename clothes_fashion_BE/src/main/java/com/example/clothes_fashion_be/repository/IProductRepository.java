@@ -3,6 +3,7 @@ package com.example.clothes_fashion_be.repository;
 import com.example.clothes_fashion_be.entitys.Product;
 import com.example.clothes_fashion_be.entitys.dto.request.ProductCreateRequest;
 import com.example.clothes_fashion_be.entitys.dto.request.ProductUpdateRequest;
+import com.example.clothes_fashion_be.entitys.dto.response.ProductResponseProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,8 @@ import java.util.List;
 public interface IProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select p.id, p.name, p.price, p.background_image, p.images, p.sold, p.last_update, p.description " +
             "from product p join category c on p.category_id = c.id where p.is_deleted = false", nativeQuery = true)
-    List<Object[]> findAllProductByQuery();
+//    List<Object[]> findAllProductByQuery();
+    List<ProductResponseProjection> findAllProductByQuery();
 
     @Modifying
     @Transactional
@@ -38,6 +40,7 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "select p.id, p.name, p.price, p.background_image, p.images, p.sold, p.last_update, p.description " +
             "from product p join category c on p.category_id = c.id where p.id = ?1 and p.is_deleted = 0;", nativeQuery = true)
-    List<Object[]> findProductByQuery(Long id);
+    ProductResponseProjection findProductByQuery(Long id);
+//    List<Object[]> findProductByQuery(Long id);
 
 }
