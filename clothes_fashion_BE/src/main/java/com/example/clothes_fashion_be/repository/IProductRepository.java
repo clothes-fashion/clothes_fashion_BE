@@ -17,7 +17,6 @@ import java.util.List;
 public interface IProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select p.id, p.name, p.price, p.background_image, p.images, p.sold, p.last_update, p.description " +
             "from product p join category c on p.category_id = c.id where p.is_deleted = false", nativeQuery = true)
-//    List<Object[]> findAllProductByQuery();
     List<ProductResponseProjection> findAllProductByQuery();
 
     @Modifying
@@ -41,6 +40,5 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select p.id, p.name, p.price, p.background_image, p.images, p.sold, p.last_update, p.description " +
             "from product p join category c on p.category_id = c.id where p.id = ?1 and p.is_deleted = 0;", nativeQuery = true)
     ProductResponseProjection findProductByQuery(Long id);
-//    List<Object[]> findProductByQuery(Long id);
 
 }
